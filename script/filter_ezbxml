@@ -1,0 +1,68 @@
+#!/usr/bin/env perl
+
+use utf8;
+use strict;
+use autodie;
+use warnings;
+
+our $VERSION = '0.01';
+
+use App::filter_ezbxml;
+use Config::Tiny;
+use Getopt::Long 'HelpMessage';
+use Path::Tiny;
+use XML::LibXML;
+
+GetOptions( 'help|h' => sub { HelpMessage(0) }, ) or HelpMessage(1);
+
+# get directory as argument
+my $dir = shift;
+HelpMessage() unless defined $dir and -d $dir;
+my $app    = App::filter_ezbxml->new();
+my $filter = $app->filter_files($dir);
+
+if ($filter) {
+    print "DONE: filtered EZBXML files\n";
+}
+else {
+    print "ERROR: could not filter EZBXML files\n";
+}
+
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+filter_ezbxml - filter EZBXML data by REAMD URL
+
+=head1 SYNOPSIS
+
+  $ filter_ezbxml DIRECTORY
+
+  options:
+  --help,-h  Print this help
+
+=head1 DESCRIPTION
+
+App::filter_ezbxml is an app to filter EZBXML records by their README URLs. 
+The URLs to filter a read from an INI file. The filtered files are written 
+to the same directory, I<_filtered> is appended to filenames. The IDs of 
+filtered records are written to I<update_dump2020{week}.log>.
+
+=head1 AUTHOR
+
+Johann Rolschewski E<lt>jorol@cpan.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2020- Johann Rolschewski
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+=cut

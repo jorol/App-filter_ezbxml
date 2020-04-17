@@ -2,7 +2,10 @@ use strict;
 use Test::More;
 use App::filter_ezbxml;
 
-# replace with the actual test
-ok 1;
+BEGIN {
+    use_ok 'App::filter_ezbxml';
+}
+
+require_ok 'App::filter_ezbxml';
 
 done_testing;
