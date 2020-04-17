@@ -1,4 +1,7 @@
 Revision history for App-filter_ezbxml
 
 {{$NEXT}}
-        - Initial release
+
+0.01  2020-04-17 11:32:30 CEST
+    - fix bugs
+    - Initial release

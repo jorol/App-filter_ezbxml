@@ -52,6 +52,17 @@
       }
    },
    "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/jorol/App-filter_ezbxml/issues"
+      },
+      "homepage" : "https://github.com/jorol/App-filter_ezbxml",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/jorol/App-filter_ezbxml.git",
+         "web" : "https://github.com/jorol/App-filter_ezbxml"
+      }
+   },
    "version" : "0.01",
    "x_generated_by_perl" : "v5.28.1",
    "x_serialization_backend" : "Cpanel::JSON::XS version 4.08",
