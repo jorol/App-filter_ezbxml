@@ -3,7 +3,7 @@ package App::filter_ezbxml;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Config::Tiny;
 use File::Share ':all';
