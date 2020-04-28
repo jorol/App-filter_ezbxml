@@ -26,7 +26,8 @@ sub filter_files {
     die "no XML files found in directory \"$dir\"" unless @files;
 
     # create LOG file
-    my $log_file = $1 if $files[0] =~ m/(update_dump\d+)/;
+    $files[0] =~ m/(update_dump\d+)/;
+    my $log_file = $1 // 'log';
     $log_file = $dir . '/' . $log_file . '.log';
     open( my $fh_log, ">:encoding(UTF-8)", "$log_file" )
         || die "Can't open $log_file: $!";
@@ -36,29 +37,38 @@ sub filter_files {
     foreach my $file (@files) {
 
         # load XML file
-        my $doc = XML::LibXML->new->load_xml( location => $file );
+        my $doc
+            = XML::LibXML->new->load_xml( location => $file, no_blanks => 1 );
 
         # find nodes <license_set>
         for my $node ( $doc->findnodes('//license_set') ) {
 
-            # get README URL
-            my $url = $node->findvalue('./readme_url[@lang="de"]');
+            # get <available>
+            my $available = $node->findvalue('.//available');
+            next unless $available;
+            $available =~ s/^\s+|\s+$//g;
 
             # get EZB item ID
-            my $id = $node->findvalue('./license_entry_id');
+            my $ezbid = $node->findvalue('./license_entry_id');
 
-            # filter nodes by README URL
-            if ( $url =~ $self->{filter} ) {
+            # get ISIL of library
+            my $isil = $node->findvalue('./isil');
+
+            # get action (delete, insert, update)
+            my $action = $node->findvalue('./action');
+
+            # filter nodes by text of <available>
+            if ( $available =~ $self->{filter} && $action eq 'insert' ) {
 
                 # create LOG entry and delete node
-                print $fh_log "$id\t$url\t$file\n";
+                print $fh_log "$ezbid\t$isil\t$file\n";
                 $node->parentNode->removeChild($node);
             }
         }
 
         # write filtered XML to file
         my $filename = $dir . '/' . $file->basename('.xml') . '_filtered.xml';
-        $doc->toFile("$filename");
+        $doc->toFile($filename,1);
         print "created new file $filename\n";
     }
 
