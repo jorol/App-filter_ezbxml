@@ -58,7 +58,7 @@ sub filter_files {
             my $action = $node->findvalue('./action');
 
             # filter nodes by text of <available>
-            if ( $available =~ $self->{filter} && $action eq 'insert' ) {
+            if ( $available =~ $self->{filter} && $action =~ 'delete|insert|update' ) {
 
                 # create LOG entry and delete node
                 print $fh_log "$ezbid\t$isil\t$file\n";
