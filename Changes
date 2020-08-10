@@ -2,6 +2,9 @@ Revision history for App-filter_ezbxml
 
 {{$NEXT}}
 
+0.03  2020-08-10 13:09:14 CEST
+    - filter all action types
+
 0.02  2020-04-28 12:38:34 CEST
     - pretty print XML
     - default log file name
